@@ -31,17 +31,7 @@ const HeroSection = () => {
             ))}
           </h1>
 
-          <motion.div
-            className="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2 mb-6"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.8, type: "spring", stiffness: 120 }}
-          >
-            <span className="text-primary">✦</span>
-            <span className="text-sm text-muted-foreground">
-              Relationship & Engagement Executive · SNS iHub
-            </span>
-          </motion.div>
+   
 
           <motion.p
             className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg"
@@ -49,9 +39,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
           >
-            Passionate about building relationships, creating engaging
-            experiences, and connecting people through events, innovation, and
-            community initiatives.
+           Hello everyone, and welcome to my portfolio! I’m Harshitha K S, and I’m glad you’re here. With a background in Business Administration, I thrive on bringing people together and turning ideas into meaningful experiences. From building strong relationships to creating engaging events and content, I focus on making every interaction impactful, memorable, and driven by purpose.
           </motion.p>
 
           <motion.div
