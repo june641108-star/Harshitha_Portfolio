@@ -16,7 +16,6 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 pt-24">
         {/* Left content */}
         <div className="flex-1 max-w-2xl">
-          
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-semibold tracking-tight leading-[1.05] mb-6">
             {words.map((word, i) => (
               <motion.span
@@ -30,18 +29,14 @@ const HeroSection = () => {
               </motion.span>
             ))}
           </h1>
-
-   
-
           <motion.p
             className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
           >
-           Hello everyone, and welcome to my portfolio! I’m Harshitha K S, and I’m glad you’re here. With a background in Business Administration, I thrive on bringing people together and turning ideas into meaningful experiences. From building strong relationships to creating engaging events and content, I focus on making every interaction impactful, memorable, and driven by purpose.
+            Hello everyone, and welcome to my portfolio! I’m Harshitha K S, and I’m glad you’re here. With a background in Business Administration, I thrive on bringing people together and turning ideas into meaningful experiences. From building strong relationships to creating engaging events and content, I focus on making every interaction impactful, memorable, and driven by purpose.
           </motion.p>
-
           <motion.div
             className="flex flex-wrap gap-4"
             initial={{ opacity: 0, y: 20 }}
@@ -62,16 +57,7 @@ const HeroSection = () => {
             </a>
           </motion.div>
         </div>
-
-        {/* Right visual — network nodes */}
-        <motion.div
-          className="flex-1 flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.5 }}
-        >
-          <NetworkAnimation />
-        </motion.div>
+        {/* Right visual removed */}
       </div>
 
       {/* Scroll indicator */}
@@ -88,61 +74,7 @@ const HeroSection = () => {
   );
 };
 
-// Network node animation
-const NetworkAnimation = () => {
-  const nodes = [
-    { cx: 150, cy: 80 }, { cx: 250, cy: 50 }, { cx: 200, cy: 160 },
-    { cx: 100, cy: 180 }, { cx: 300, cy: 150 }, { cx: 180, cy: 250 },
-    { cx: 280, cy: 240 }, { cx: 80, cy: 100 }, { cx: 320, cy: 90 },
-    { cx: 130, cy: 280 }, { cx: 260, cy: 300 }, { cx: 350, cy: 200 },
-  ];
-
-  const connections = [
-    [0, 1], [0, 2], [1, 4], [2, 3], [2, 5], [4, 6], [3, 7],
-    [5, 9], [6, 10], [4, 8], [6, 11], [5, 6], [0, 7], [1, 8],
-    [9, 10], [2, 4], [3, 5],
-  ];
-
-  return (
-    <svg width="400" height="350" viewBox="0 0 400 350" className="w-full max-w-[400px]">
-      {connections.map(([a, b], i) => (
-        <motion.line
-          key={i}
-          x1={nodes[a].cx}
-          y1={nodes[a].cy}
-          x2={nodes[b].cx}
-          y2={nodes[b].cy}
-          stroke="url(#lineGrad)"
-          strokeWidth="1"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.3 }}
-          transition={{ duration: 1.5, delay: 0.5 + i * 0.05 }}
-        />
-      ))}
-      {nodes.map((n, i) => (
-        <motion.circle
-          key={i}
-          cx={n.cx}
-          cy={n.cy}
-          r="5"
-          fill="url(#nodeGrad)"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.8 }}
-          transition={{ duration: 0.5, delay: 0.8 + i * 0.06, type: "spring" }}
-        />
-      ))}
-      <defs>
-        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#985e6d" />
-          <stop offset="100%" stopColor="#98878f" />
-        </linearGradient>
-        <radialGradient id="nodeGrad">
-          <stop offset="0%" stopColor="#ad7e8a" />
-          <stop offset="100%" stopColor="#985e6d" />
-        </radialGradient>
-      </defs>
-    </svg>
-  );
-};
+// ...existing code...
 
 export default HeroSection;
+
