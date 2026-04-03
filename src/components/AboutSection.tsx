@@ -73,8 +73,8 @@ const AboutSection = () => {
             variants={fadeInUp}
             custom={1}
           >
-            <p className="font-mono-label text-primary mb-3">About Me</p>
-            <h2 className="text-3xl sm:text-4xl font-display font-medium italic text-foreground/95 mb-4 leading-snug tracking-tight">
+            <p className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-3">About Me</p>
+            <h2 className="font-mono-label tracking-widest font-display font-medium italic text-foreground/95 mb-4 leading-snug tracking-tight">
               The Person Behind the Role
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">

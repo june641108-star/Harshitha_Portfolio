@@ -25,14 +25,14 @@ const ContactSection = () => {
     <section id="contact" className="py-[15vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.p
-          className="font-mono-label text-primary mb-4"
+          className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
         >
-          // let's connect
+          Let's Connect
         </motion.p>
         <motion.h2
-          className="text-3xl sm:text-4xl font-display font-semibold text-foreground mb-12"
+          className="font-mono-label tracking-widest font-display font-semibold text-foreground mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
         >
@@ -73,11 +73,6 @@ const ContactSection = () => {
                 <Linkedin size={18} className="text-primary" />
                 <span className="text-foreground text-sm">linkedin.com/in/harshitha--k-s/</span>
               </a>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-xs text-muted-foreground">Currently open to opportunities</span>
             </div>
           </motion.div>
 

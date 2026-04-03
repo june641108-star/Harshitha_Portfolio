@@ -33,14 +33,14 @@ const LanguagesSection = () => {
     <section className="py-[15vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.p
-          className="font-mono-label text-primary mb-4"
+          className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
         >
-          // linguistic versatility
+          Linguistic Versatility
         </motion.p>
         <motion.h2
-          className="text-3xl sm:text-4xl font-display font-semibold text-foreground mb-12"
+          className="font-mono-label tracking-widest font-display font-semibold text-foreground mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
         >

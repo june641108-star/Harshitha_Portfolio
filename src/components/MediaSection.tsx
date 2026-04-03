@@ -42,14 +42,14 @@ const MediaSection = () => {
     <section id="media" className="py-[15vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.p
-          className="font-mono-label text-primary mb-4"
+          className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
         >
-          // moments & memories
+          Moments & Memories
         </motion.p>
         <motion.h2
-          className="text-3xl sm:text-4xl font-display font-semibold text-foreground mb-3"
+          className="font-mono-label tracking-widest font-display font-semibold text-foreground mb-3"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
         >
@@ -75,11 +75,10 @@ const MediaSection = () => {
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-4 py-2 rounded-full text-sm transition-all ${
-                activeFilter === f
+              className={`px-4 py-2 rounded-full text-sm transition-all ${activeFilter === f
                   ? "btn-gradient text-primary-foreground"
                   : "glass-card text-muted-foreground hover:text-foreground"
-              }`}
+                }`}
             >
               {f}
             </button>
@@ -93,9 +92,8 @@ const MediaSection = () => {
               <motion.div
                 key={item.id}
                 layout
-                className={`break-inside-avoid glass-card rounded-xl p-2 cursor-pointer group ${
-                  i % 3 === 0 ? "rotate-[-1deg]" : i % 3 === 1 ? "rotate-[1deg]" : ""
-                }`}
+                className={`break-inside-avoid glass-card rounded-xl p-2 cursor-pointer group ${i % 3 === 0 ? "rotate-[-1deg]" : i % 3 === 1 ? "rotate-[1deg]" : ""
+                  }`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -104,9 +102,8 @@ const MediaSection = () => {
                 onClick={() => setLightboxIndex(mediaItems.indexOf(item))}
               >
                 <div
-                  className={`rounded-lg bg-gradient-to-br ${gradients[i % gradients.length]} ${
-                    item.aspect === "portrait" ? "aspect-[3/4]" : item.aspect === "landscape" ? "aspect-[4/3]" : "aspect-square"
-                  } flex items-center justify-center group-hover:brightness-110 transition-all`}
+                  className={`rounded-lg bg-gradient-to-br ${gradients[i % gradients.length]} ${item.aspect === "portrait" ? "aspect-[3/4]" : item.aspect === "landscape" ? "aspect-[4/3]" : "aspect-square"
+                    } flex items-center justify-center group-hover:brightness-110 transition-all`}
                 >
                   <span className="text-3xl opacity-50">📸</span>
                 </div>
