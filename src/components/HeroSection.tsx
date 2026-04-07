@@ -36,7 +36,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
           >
-            Community builder, event coordinator,
+            Community Builder | Event Coordinator | Content Creator
           </motion.p>
           <motion.div
             className="flex flex-wrap gap-4"

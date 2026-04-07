@@ -56,15 +56,10 @@ const AboutSection = () => {
 
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
               <p className="text italic text-lg">
-                I'm Harshitha K S — a relationship builder, event orchestrator, and
-                community connector at SNS iHub in Coimbatore. With a BBA background
-                and a passion for people, I thrive at the intersection of innovation
-                and human connection.
+                Hello! I’m Harshitha K S — someone who enjoys connecting ideas with people and turning creativity into meaningful outcomes.
               </p>
               <p className="text italic text-lg">
-                From coordinating large-scale events to creating compelling social media
-                content, I bring energy and intention to everything I do. My goal is to
-                make every interaction meaningful and every experience memorable.
+                Driven by curiosity and a passion for building genuine connections, I love bringing ideas to life and creating experiences that leave a lasting impact. With a strong focus on growth and collaboration, I strive to add value through thoughtful execution and a people-first approach in everything I do.
               </p>
             </div>
             <div className="glass-card rounded-xl p-6 border-l-2 border-primary">

@@ -4,28 +4,34 @@ import { ArrowRight } from "lucide-react";
 
 const initiatives = [
   {
-    title: "Event Coordination",
-    desc: "End-to-end logistics, seamless execution, and dynamic flow management for high-impact innovation events and professional gatherings.",
-    tags: ["Planning", "Execution", "Logistics"],
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop"
+    title: "Front Office Management",
+    desc: "Serving as the primary point of contact, ensuring a seamless, welcoming, and highly professional experience at the SNS iHub front desk.",
+    tags: ["Operations", "Communication", "Service"],
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    title: "Guest Engagement & Tours",
-    desc: "Serving as the primary ambassador, warmly welcoming VIP visitors and guiding them through the intricate SNS iHub ecosystem.",
+    title: "Guest Tours & Experience",
+    desc: "Acting as the primary ambassador, warmly receiving VIP visitors, coordinating itineraries, and guiding them through the intricate SNS iHub ecosystem.",
     tags: ["Hospitality", "Networking", "Public Relations"],
     image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop"
   },
   {
+    title: "Event Coordination",
+    desc: "Managing end-to-end logistics, seamless execution, and dynamic flow management for high-impact innovation events and professional gatherings.",
+    tags: ["Planning", "Execution", "Logistics"],
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop"
+  },
+  {
     title: "Social Media Content",
-    desc: "Directing, capturing, and producing captivating digital reels and highlights to amplify the brand of SNS iHub & SNS Square.",
+    desc: "Directing, capturing, and producing captivating digital reels and interactive highlights to amplify the brand vision of SNS iHub & SNS Square.",
     tags: ["Content Creation", "Brand Voice", "Digital Media"],
     image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200&auto=format&fit=crop"
   },
   {
-    title: "Employee Engagement",
-    desc: "Designing and driving internal cultural programs that genuinely build team morale, boost culture, and increase overall participation.",
-    tags: ["Culture", "Team Building", "Internal Comms"],
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
+    title: "Reporting & Management",
+    desc: "Maintaining comprehensive operational records, analyzing daily engagement metrics, and providing actionable reports for continuous workflow improvement.",
+    tags: ["Analytics", "Strategy", "Administration"],
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"
   },
 ];
 
@@ -95,8 +101,8 @@ const WorkSection = () => {
                 onMouseEnter={() => setActiveImg(item.image)}
                 initial={{ opacity: 0, x: -30 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.3 + i * 0.15, duration: 0.7, ease: "easeOut" }}
-                className="group relative cursor-pointer py-10 lg:py-14 border-b border-foreground/10 last:border-0"
+                transition={{ delay: 0.3 + i * 0.1, duration: 0.7, ease: "easeOut" }}
+                className="group relative cursor-pointer py-8 lg:py-10 px-6 -mx-6 lg:px-8 lg:-mx-8 rounded-2xl transition-all duration-300 hover:bg-gradient-to-r hover:from-primary/10 hover:via-primary/5 hover:to-transparent border-b border-foreground/10 hover:border-transparent last:border-0"
               >
                 {/* Mobile Image Overlay (Hidden on Desktop) */}
                 <div className="lg:hidden w-full h-[250px] sm:h-[350px] rounded-3xl overflow-hidden mb-8 shadow-md">
