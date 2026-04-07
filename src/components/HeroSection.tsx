@@ -75,9 +75,9 @@ const HeroSection = () => {
           <div className="relative z-10 w-64 h-64 sm:w-80 sm:h-80 xl:w-[400px] xl:h-[400px] rounded-full p-1.5 bg-gradient-to-tr from-primary via-cyan-400 to-secondary custom-pulse-glow shadow-2xl">
             {/* The Image Wrapper */}
             <div className="w-full h-full rounded-full bg-background overflow-hidden border-4 border-background flex items-center justify-center relative group">
-              <img 
-                src="/profile.jpg" 
-                alt="Harshitha K S" 
+              <img
+                src="/profile.jpg"
+                alt="Harshitha K S"
                 className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
               />
               {/* Overlay that matches the portfolio's primary color */}
@@ -88,16 +88,16 @@ const HeroSection = () => {
             {/* Orbit rings */}
             <div className="absolute -inset-6 border border-primary/20 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none" />
             <div className="absolute -inset-10 border border-secondary/20 rounded-full animate-[spin_25s_linear_infinite_reverse] pointer-events-none" />
-            
+
             {/* Orbit nodes */}
-            <motion.div 
+            <motion.div
               className="absolute top-8 -right-2 sm:-right-4 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-background border border-primary/30 flex items-center justify-center shadow-lg"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-primary" />
             </motion.div>
-            <motion.div 
+            <motion.div
               className="absolute bottom-12 -left-4 sm:-left-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background border border-secondary/30 flex items-center justify-center shadow-lg"
               animate={{ y: [0, 15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
