@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const initiatives = [
   {
@@ -35,23 +35,58 @@ const initiatives = [
   },
 ];
 
+const pages = [
+  {
+    title: "Relationship & Engagement Executive",
+    desc: "Operating at the intersection of innovation, people, and events—creating immersive experiences that leave a lasting impression on every visitor, partner, and team member.",
+    tags: ["Current Role", "SNS iHub"],
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
+  },
+  ...initiatives
+];
+
+const flipVariants = {
+  enter: (direction: number) => ({
+    rotateY: direction > 0 ? 90 : -90,
+    opacity: 0,
+  }),
+  center: {
+    rotateY: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    rotateY: direction < 0 ? 90 : -90,
+    opacity: 0,
+  })
+};
+
 const WorkSection = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeImg, setActiveImg] = useState(initiatives[0].image);
+  
+  const [[page, direction], setPage] = useState([0, 0]);
+
+  const paginate = (newDirection: number) => {
+    const newPage = page + newDirection;
+    if (newPage >= 0 && newPage < pages.length) {
+      setPage([newPage, newDirection]);
+    }
+  };
+
+  const currentPage = pages[page];
 
   return (
     <section id="work" className="py-[10vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
 
         {/* Header content */}
-        <div className="mb-16 max-w-2xl">
+        <div className="mb-12 lg:mb-16 max-w-2xl">
           <motion.p
             className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4"
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
           >
-            Work & Initiatives
+            Experience & Impact
           </motion.p>
           <motion.h2
             className="font-mono-label tracking-widest text-foreground uppercase"
@@ -63,98 +98,96 @@ const WorkSection = () => {
           </motion.h2>
         </div>
 
-        {/* Highlight Banner */}
+        {/* Book Layout */}
         <motion.div
-          className="glass-card rounded-3xl p-8 lg:p-10 mb-16 relative overflow-hidden border border-primary/20 shadow-lg"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2 }}
+           initial={{ opacity: 0, y: 40 }}
+           animate={inView ? { opacity: 1, y: 0 } : {}}
+           transition={{ delay: 0.2, duration: 0.7 }}
+           className="w-full"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600/10 via-transparent to-cyan-500/10 pointer-events-none" />
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <div className="flex flex-wrap gap-3 mb-4">
-                <span className="bg-primary/10 border border-primary/20 text-primary rounded-full px-4 py-1.5 text-xs font-mono uppercase tracking-wider font-semibold">Current Role</span>
-                <span className="glass-card rounded-full px-4 py-1.5 text-xs text-secondary font-mono uppercase tracking-wider font-semibold">SNS iHub</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-display font-semibold text-foreground mb-3">
-                Relationship & Engagement Executive
-              </h3>
-              <p className="text-muted-foreground max-w-2xl leading-relaxed text-base">
-                Operating at the intersection of innovation, people, and events—creating immersive experiences that leave a lasting impression on every visitor, partner, and team member.
-              </p>
-            </div>
-            <div className="hidden md:flex w-16 h-16 rounded-full bg-primary/10 border border-primary/20 items-center justify-center text-primary group cursor-pointer hover:bg-primary hover:text-white transition-colors duration-300">
-              <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Interactive Split Feature Layout */}
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 relative items-start">
-
-          {/* Left Column: Interactive List */}
-          <div className="w-full lg:w-1/2 flex flex-col">
-            {initiatives.map((item, i) => (
+          <div className="relative w-full max-w-5xl mx-auto min-h-[650px] sm:min-h-[600px] lg:h-[600px] xl:h-[650px] perspective-[2000px]">
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={item.title}
-                onMouseEnter={() => setActiveImg(item.image)}
-                initial={{ opacity: 0, x: -30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.3 + i * 0.1, duration: 0.7, ease: "easeOut" }}
-                className="group relative cursor-pointer py-8 lg:py-10 px-6 -mx-6 lg:px-8 lg:-mx-8 rounded-2xl transition-all duration-300 hover:bg-gradient-to-r hover:from-primary/10 hover:via-primary/5 hover:to-transparent border-b border-foreground/10 hover:border-transparent last:border-0"
+                key={page}
+                custom={direction}
+                variants={flipVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full flex flex-col lg:flex-row glass-card rounded-[2.5rem] shadow-2xl border border-primary/20 overflow-hidden"
               >
-                {/* Mobile Image Overlay (Hidden on Desktop) */}
-                <div className="lg:hidden w-full h-[250px] sm:h-[350px] rounded-3xl overflow-hidden mb-8 shadow-md">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                {/* Left Page (Text) */}
+                <div className="w-full lg:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center relative bg-card/50">
+                  {/* Subtle Spine Shadow for Book Effect on Desktop */}
+                  <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/10 to-transparent pointer-events-none" />
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {currentPage.tags.map((t) => (
+                      <span key={t} className="bg-primary/10 border border-primary/20 text-primary rounded-full px-3 py-1.5 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6">
+                    {currentPage.title}
+                  </h3>
+
+                  <p className="text-muted-foreground leading-relaxed text-base sm:text-lg">
+                    {currentPage.desc}
+                  </p>
+
+                  <div className="absolute bottom-8 left-8 sm:left-12 lg:left-14 text-xs font-mono tracking-widest uppercase text-muted-foreground/60">
+                    Page {page + 1}
+                  </div>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-display font-semibold transition-colors duration-300 group-hover:text-primary mb-4 flex items-center justify-between">
-                  {item.title}
-                  <span className="hidden lg:block opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary">
-                    <ArrowRight size={24} strokeWidth={2} />
-                  </span>
-                </h3>
-                <p className="text-muted-foreground leading-relaxed text-base sm:text-lg mb-6 max-w-xl opacity-90">
-                  {item.desc}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.map((t) => (
-                    <span key={t} className="glass-card text-[11px] font-mono tracking-widest uppercase px-4 py-1.5 rounded-full text-foreground/80 group-hover:border-primary/30 transition-colors">
-                      {t}
-                    </span>
-                  ))}
+                {/* Right Page (Image) */}
+                <div className="w-full h-64 sm:h-80 lg:w-1/2 lg:h-full relative overflow-hidden bg-muted">
+                  {/* Subtle Spine Shadow for Book Effect on Desktop */}
+                  <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/10 to-transparent z-10 pointer-events-none" />
+                  
+                  <img src={currentPage.image} alt={currentPage.title} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
                 </div>
               </motion.div>
-            ))}
+            </AnimatePresence>
           </div>
 
-          {/* Right Column: Sticky Media Display (Desktop Only) */}
-          <motion.div
-            className="hidden lg:block w-1/2 sticky top-32 h-[650px] max-h-[80vh] rounded-[2.5rem] p-3 glass-card shadow-2xl"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            <div className="w-full h-full rounded-[2rem] overflow-hidden relative border border-primary/10">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeImg}
-                  src={activeImg}
-                  alt="Work Initiative"
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0 w-full h-full object-cover"
+          {/* Book Controls */}
+          <div className="flex justify-center items-center mt-12 sm:mt-16 gap-6 sm:gap-8">
+            <button 
+              onClick={() => paginate(-1)}
+              disabled={page === 0}
+              className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Previous Page"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            
+            <div className="flex gap-2">
+              {pages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPage([i, i > page ? 1 : -1])}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${i === page ? 'bg-primary w-8' : 'bg-primary/30 w-2.5 hover:bg-primary/60'}`}
+                  aria-label={`Go to page ${i + 1}`}
                 />
-              </AnimatePresence>
-              {/* Soft overlay to make it look premium */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
+              ))}
             </div>
-          </motion.div>
 
-        </div>
+            <button 
+              onClick={() => paginate(1)}
+              disabled={page === pages.length - 1}
+              className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
+              aria-label="Next Page"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
+
+        </motion.div>
       </div>
     </section>
   );
