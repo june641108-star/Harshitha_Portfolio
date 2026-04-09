@@ -2,18 +2,19 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const initiatives = [
+/* ─── Inner page data (pages 2–6 of the book) ─── */
+const innerPages = [
   {
     title: "Front Office Management",
     desc: "Serving as the primary point of contact, ensuring a seamless, welcoming, and highly professional experience at the SNS iHub front desk.",
     tags: ["Operations", "Communication", "Service"],
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
+    image: "/sns-ihub-cover.png"
   },
   {
     title: "Guest Tours & Experience",
     desc: "Acting as the primary ambassador, warmly receiving VIP visitors, coordinating itineraries, and guiding them through the intricate SNS iHub ecosystem.",
     tags: ["Hospitality", "Networking", "Public Relations"],
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop"
+    image: "/guest-tours.jpg"
   },
   {
     title: "Event Coordination",
@@ -35,158 +36,315 @@ const initiatives = [
   },
 ];
 
-const pages = [
-  {
-    title: "Relationship & Engagement Executive",
-    desc: "Operating at the intersection of innovation, people, and events—creating immersive experiences that leave a lasting impression on every visitor, partner, and team member.",
-    tags: ["Current Role", "SNS iHub"],
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop"
-  },
-  ...initiatives
-];
+const TOTAL_PAGES = 1 + innerPages.length; // 1 cover + 5 inner = 6
 
-const flipVariants = {
+/* ═══════════════════════════════════════════════════
+   ANIMATION VARIANTS
+   ═══════════════════════════════════════════════════ */
+
+/* Cover page — flips open/closed from the LEFT spine like a real hardcover */
+const coverVariants = {
   enter: (direction: number) => ({
-    rotateY: direction > 0 ? 90 : -90,
-    opacity: 0,
+    rotateY: direction < 0 ? -120 : 0,
+    rotateX: direction < 0 ? 8 : 0,
+    skewY: direction < 0 ? 3 : 0,
+    z: direction < 0 ? 80 : 0,
+    opacity: direction < 0 ? 0 : 1,
+    transformOrigin: "left center",
   }),
   center: {
     rotateY: 0,
+    rotateX: 0,
+    skewY: 0,
+    z: 0,
     opacity: 1,
+    transformOrigin: "left center",
   },
   exit: (direction: number) => ({
-    rotateY: direction < 0 ? 90 : -90,
-    opacity: 0,
-  })
+    rotateY: direction > 0 ? -120 : 0,
+    rotateX: direction > 0 ? 8 : 0,
+    skewY: direction > 0 ? 3 : 0,
+    z: direction > 0 ? 80 : 0,
+    opacity: direction > 0 ? 0 : 1,
+    transformOrigin: "left center",
+  }),
 };
 
+/* Inner pages — wrapper fades */
+const innerWrapperVariants = {
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { staggerChildren: 0 } },
+  exit: { opacity: 0 },
+};
+
+/* Left panel of inner pages — hinged at right edge (spine side) */
+const leftVariants = {
+  enter: (direction: number) => ({
+    rotateY: direction > 0 ? 90 : 0,
+    rotateX: direction > 0 ? 12 : 0,
+    skewY: direction > 0 ? -5 : 0,
+    z: direction > 0 ? 50 : 0,
+    transformOrigin: "right center",
+  }),
+  center: {
+    rotateY: 0, rotateX: 0, skewY: 0, z: 0,
+    transformOrigin: "right center",
+  },
+  exit: (direction: number) => ({
+    rotateY: direction < 0 ? 90 : 0,
+    rotateX: direction < 0 ? 12 : 0,
+    skewY: direction < 0 ? -5 : 0,
+    z: direction < 0 ? 50 : 0,
+    transformOrigin: "right center",
+  }),
+};
+
+/* Right panel of inner pages — hinged at left edge (spine side) */
+const rightVariants = {
+  enter: (direction: number) => ({
+    rotateY: direction < 0 ? -90 : 0,
+    rotateX: direction < 0 ? 12 : 0,
+    skewY: direction < 0 ? 5 : 0,
+    z: direction < 0 ? 50 : 0,
+    transformOrigin: "left center",
+  }),
+  center: {
+    rotateY: 0, rotateX: 0, skewY: 0, z: 0,
+    transformOrigin: "left center",
+  },
+  exit: (direction: number) => ({
+    rotateY: direction > 0 ? -90 : 0,
+    rotateX: direction > 0 ? 12 : 0,
+    skewY: direction > 0 ? 5 : 0,
+    z: direction > 0 ? 50 : 0,
+    transformOrigin: "left center",
+  }),
+};
+
+/* ═══════════════════════════════════════════════════
+   COMPONENT
+   ═══════════════════════════════════════════════════ */
 const WorkSection = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   const [[page, direction], setPage] = useState([0, 0]);
 
   const paginate = (newDirection: number) => {
     const newPage = page + newDirection;
-    if (newPage >= 0 && newPage < pages.length) {
+    if (newPage >= 0 && newPage < TOTAL_PAGES) {
       setPage([newPage, newDirection]);
     }
   };
 
-  const currentPage = pages[page];
+  const isCover = page === 0;
 
   return (
     <section id="work" className="py-[10vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
 
-        {/* Header content */}
-        <div className="mb-12 lg:mb-16 max-w-2xl">
-          <motion.p
-            className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-          >
-            Experience & Impact
-          </motion.p>
-          <motion.h2
-            className="font-mono-label tracking-widest text-foreground uppercase"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-          >
-            Building Experiences <span className="text-gradient-primary">That Matter</span>
-          </motion.h2>
-        </div>
+        {/* Section Header - Only visible when book is open for a cleaner initial cover view */}
+        <AnimatePresence>
+          {!isCover && (
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mb-8 lg:mb-12 text-center"
+            >
+              <h2 className="font-mono-label tracking-[0.2em] text-foreground/60 uppercase text-xs mb-2">
+                Experience & Impact
+              </h2>
+              <div className="h-px w-12 bg-primary/30 mx-auto" />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Book Layout */}
+        {/* ═══════ THE BOOK ═══════ */}
         <motion.div
-           initial={{ opacity: 0, y: 40 }}
-           animate={inView ? { opacity: 1, y: 0 } : {}}
-           transition={{ delay: 0.2, duration: 0.7 }}
-           className="w-full"
+          initial={{ opacity: 0, y: 40 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2, duration: 0.7 }}
+          className="w-full"
         >
-          <div className="relative w-full max-w-5xl mx-auto min-h-[650px] sm:min-h-[600px] lg:h-[600px] xl:h-[650px] perspective-[2000px]">
+          <div
+            className="relative w-full max-w-5xl mx-auto min-h-[650px] sm:min-h-[600px] lg:h-[600px] xl:h-[650px]"
+            style={{ perspective: "2000px" }}
+          >
             <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={page}
-                custom={direction}
-                variants={flipVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="absolute inset-0 w-full h-full flex flex-col lg:flex-row glass-card rounded-[2.5rem] shadow-2xl border border-primary/20 overflow-hidden"
-              >
-                {/* Left Page (Text) */}
-                <div className="w-full lg:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center relative bg-card/50">
-                  {/* Subtle Spine Shadow for Book Effect on Desktop */}
-                  <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/10 to-transparent pointer-events-none" />
-                  
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {currentPage.tags.map((t) => (
-                      <span key={t} className="bg-primary/10 border border-primary/20 text-primary rounded-full px-3 py-1.5 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold">
-                        {t}
-                      </span>
-                    ))}
+              {isCover ? (
+                /* ══════════════════════════════
+                   COVER PAGE — closed book
+                   ══════════════════════════════ */
+                <motion.div
+                  key="cover"
+                  custom={direction}
+                  variants={coverVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="absolute inset-x-0 mx-auto w-full max-w-sm sm:max-w-md h-full rounded-[2.5rem] shadow-2xl overflow-hidden cursor-pointer group"
+                  style={{ transformStyle: "preserve-3d" }}
+                  onClick={() => paginate(1)}
+                >
+                  {/* ── Background ── */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
+
+                  {/* ── Decorative elements for a minimal cover ── */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent" />
+                  <div className="absolute bottom-12 left-8 w-12 h-1 bg-primary/30" />
+
+                  {/* ── Cover Content ── */}
+                  <div className="relative z-10 flex flex-col justify-end h-full p-8 sm:p-10">
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {["Current Role", "SNS iHub"].map((t) => (
+                        <span
+                          key={t}
+                          className="bg-primary/5 border border-primary/10 text-primary/70 rounded-full px-3 py-1 text-[10px] font-mono uppercase tracking-wider"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3 leading-tight">
+                      Relationship &amp;<br />Engagement Executive
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-muted-foreground leading-relaxed text-sm max-w-xs mb-8">
+                      Creating immersive experiences that leave a lasting impression on every visitor.
+                    </p>
+
+                    {/* "Open" Button */}
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); paginate(1); }}
+                      className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all duration-300 shadow-lg shadow-primary/5"
+                    >
+                      <ChevronRight size={24} />
+                    </button>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6">
-                    {currentPage.title}
-                  </h3>
-
-                  <p className="text-muted-foreground leading-relaxed text-base sm:text-lg">
-                    {currentPage.desc}
-                  </p>
-
-                  <div className="absolute bottom-8 left-8 sm:left-12 lg:left-14 text-xs font-mono tracking-widest uppercase text-muted-foreground/60">
-                    Page {page + 1}
-                  </div>
-                </div>
-
-                {/* Right Page (Image) */}
-                <div className="w-full h-64 sm:h-80 lg:w-1/2 lg:h-full relative overflow-hidden bg-muted">
-                  {/* Subtle Spine Shadow for Book Effect on Desktop */}
-                  <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/10 to-transparent z-10 pointer-events-none" />
+                  {/* ── Book-edge details (right side) ── */}
+                  <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-black/20 to-transparent pointer-events-none" />
                   
-                  <img src={currentPage.image} alt={currentPage.title} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
-                </div>
-              </motion.div>
+                  {/* ── Subtle border ── */}
+                  <div className="absolute inset-0 rounded-[2.5rem] border border-white/10 pointer-events-none" />
+                </motion.div>
+              ) : (
+                /* ══════════════════════════════
+                   INNER PAGES — open book
+                   ══════════════════════════════ */
+                <motion.div
+                  key={page}
+                  custom={direction}
+                  variants={innerWrapperVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="absolute inset-0 w-full h-full flex flex-col lg:flex-row glass-card rounded-[2.5rem] shadow-2xl border border-primary/20 overflow-hidden"
+                >
+                  {/* Left Page — Text */}
+                  <motion.div
+                    variants={leftVariants}
+                    custom={direction}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="w-full lg:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center relative bg-card/50"
+                  >
+                    {/* Spine shadow */}
+                    <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-black/10 to-transparent pointer-events-none" />
+
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {innerPages[page - 1].tags.map((t) => (
+                        <span key={t} className="bg-primary/10 border border-primary/20 text-primary rounded-full px-3 py-1.5 text-[10px] sm:text-xs font-mono uppercase tracking-wider font-semibold">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6">
+                      {innerPages[page - 1].title}
+                    </h3>
+
+                    <p className="text-muted-foreground leading-relaxed text-base sm:text-lg">
+                      {innerPages[page - 1].desc}
+                    </p>
+
+                    <div className="absolute bottom-8 left-8 sm:left-12 lg:left-14 text-xs font-mono tracking-widest uppercase text-muted-foreground/60">
+                      Page {page + 1}
+                    </div>
+                  </motion.div>
+
+                  {/* Right Page — Image */}
+                  <motion.div
+                    variants={rightVariants}
+                    custom={direction}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="w-full h-64 sm:h-80 lg:w-1/2 lg:h-full relative overflow-hidden bg-muted"
+                  >
+                    {/* Spine shadow */}
+                    <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-black/20 via-black/5 to-transparent z-10 pointer-events-none" />
+
+                    <img src={innerPages[page - 1].image} alt={innerPages[page - 1].title} className="w-full h-full object-contain transition-transform duration-700 hover:scale-105" />
+                    
+                    {/* Multi-stage blending overlays */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/80 to-transparent pointer-events-none lg:hidden" />
+                    <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background/20 to-transparent pointer-events-none" />
+                  </motion.div>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
 
-          {/* Book Controls */}
-          <div className="flex justify-center items-center mt-12 sm:mt-16 gap-6 sm:gap-8">
-            <button 
-              onClick={() => paginate(-1)}
-              disabled={page === 0}
-              className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
-              aria-label="Previous Page"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            
-            <div className="flex gap-2">
-              {pages.map((_, i) => (
+          {/* ═══════ BOOK CONTROLS ═══════ */}
+          <AnimatePresence>
+            {!isCover && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="flex justify-center items-center mt-12 sm:mt-16 gap-6 sm:gap-8"
+              >
                 <button
-                  key={i}
-                  onClick={() => setPage([i, i > page ? 1 : -1])}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${i === page ? 'bg-primary w-8' : 'bg-primary/30 w-2.5 hover:bg-primary/60'}`}
-                  aria-label={`Go to page ${i + 1}`}
-                />
-              ))}
-            </div>
+                  onClick={() => paginate(-1)}
+                  disabled={page === 0}
+                  className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={24} />
+                </button>
 
-            <button 
-              onClick={() => paginate(1)}
-              disabled={page === pages.length - 1}
-              className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
-              aria-label="Next Page"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
+                <div className="flex gap-2">
+                  {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setPage([i, i > page ? 1 : -1])}
+                      className={`h-2.5 rounded-full transition-all duration-300 ${
+                        i === page
+                          ? "bg-primary w-8"
+                          : "bg-primary/30 w-2.5 hover:bg-primary/60"
+                      }`}
+                      aria-label={`Go to page ${i + 1}`}
+                    />
+                  ))}
+                </div>
 
+                <button
+                  onClick={() => paginate(1)}
+                  disabled={page === TOTAL_PAGES - 1}
+                  className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
+                  aria-label="Next Page"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>
