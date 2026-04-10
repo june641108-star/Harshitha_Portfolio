@@ -20,7 +20,7 @@ const innerPages = [
     title: "Event Coordination",
     desc: "Managing end-to-end logistics, seamless execution, and dynamic flow management for high-impact innovation events and professional gatherings.",
     tags: ["Planning", "Execution", "Logistics"],
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop"
+    image: "/event-coordination.jpg"
   },
   {
     title: "Social Media Content",
@@ -146,7 +146,7 @@ const WorkSection = () => {
         {/* Section Header - Only visible when book is open for a cleaner initial cover view */}
         <AnimatePresence>
           {!isCover && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -218,19 +218,11 @@ const WorkSection = () => {
                     <p className="text-muted-foreground leading-relaxed text-sm max-w-xs mb-8">
                       Creating immersive experiences that leave a lasting impression on every visitor.
                     </p>
-
-                    {/* "Open" Button */}
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); paginate(1); }}
-                      className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all duration-300 shadow-lg shadow-primary/5"
-                    >
-                      <ChevronRight size={24} />
-                    </button>
                   </div>
 
                   {/* ── Book-edge details (right side) ── */}
                   <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-black/20 to-transparent pointer-events-none" />
-                  
+
                   {/* ── Subtle border ── */}
                   <div className="absolute inset-0 rounded-[2.5rem] border border-white/10 pointer-events-none" />
                 </motion.div>
@@ -290,7 +282,7 @@ const WorkSection = () => {
                     <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-black/20 via-black/5 to-transparent z-10 pointer-events-none" />
 
                     <img src={innerPages[page - 1].image} alt={innerPages[page - 1].title} className="w-full h-full object-contain transition-transform duration-700 hover:scale-105" />
-                    
+
                     {/* Multi-stage blending overlays */}
                     <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/80 to-transparent pointer-events-none lg:hidden" />
@@ -299,49 +291,62 @@ const WorkSection = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-
-          {/* ═══════ BOOK CONTROLS ═══════ */}
-          <AnimatePresence>
-            {!isCover && (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="flex justify-center items-center mt-12 sm:mt-16 gap-6 sm:gap-8"
-              >
-                <button
+            {/* ═══════ SIDE ARROWS (inside book container) ═══════ */}
+            <AnimatePresence>
+              {page > 0 && (
+                <motion.button
+                  key="arrow-left"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
                   onClick={() => paginate(-1)}
-                  disabled={page === 0}
-                  className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
+                  className="absolute top-1/2 -translate-y-1/2 -left-3 sm:-left-6 lg:-left-12 z-50 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-primary/20 bg-background shadow-xl text-primary hover:bg-primary hover:text-white hover:scale-110 active:scale-95 transition-all duration-300"
                   aria-label="Previous Page"
                 >
-                  <ChevronLeft size={24} />
-                </button>
+                  <ChevronLeft size={28} />
+                </motion.button>
+              )}
 
+              {page < TOTAL_PAGES - 1 && (
+                <motion.button
+                  key="arrow-right"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={() => paginate(1)}
+                  className="absolute top-1/2 -translate-y-1/2 -right-3 sm:-right-6 lg:-right-12 z-50 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-primary/20 bg-background shadow-xl text-primary hover:bg-primary hover:text-white hover:scale-110 active:scale-95 transition-all duration-300"
+                  aria-label="Next Page"
+                >
+                  <ChevronRight size={28} />
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* ═══════ DOT INDICATORS (below the book) ═══════ */}
+          <AnimatePresence>
+            {!isCover && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="flex justify-center items-center mt-10 sm:mt-14"
+              >
                 <div className="flex gap-2">
                   {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setPage([i, i > page ? 1 : -1])}
-                      className={`h-2.5 rounded-full transition-all duration-300 ${
-                        i === page
-                          ? "bg-primary w-8"
-                          : "bg-primary/30 w-2.5 hover:bg-primary/60"
-                      }`}
+                      className={`h-2.5 rounded-full transition-all duration-300 ${i === page
+                        ? "bg-primary w-8"
+                        : "bg-primary/30 w-2.5 hover:bg-primary/60"
+                        }`}
                       aria-label={`Go to page ${i + 1}`}
                     />
                   ))}
                 </div>
-
-                <button
-                  onClick={() => paginate(1)}
-                  disabled={page === TOTAL_PAGES - 1}
-                  className="p-3 sm:p-4 rounded-full border border-primary/20 text-foreground hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-foreground disabled:cursor-not-allowed transition-all duration-300"
-                  aria-label="Next Page"
-                >
-                  <ChevronRight size={24} />
-                </button>
               </motion.div>
             )}
           </AnimatePresence>
