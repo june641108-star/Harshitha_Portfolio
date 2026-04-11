@@ -14,19 +14,19 @@ const innerPages = [
     title: "Guest Tours & Experience",
     desc: "Acting as the primary ambassador, warmly receiving VIP visitors, coordinating itineraries, and guiding them through the intricate SNS iHub ecosystem.",
     tags: ["Hospitality", "Networking", "Public Relations"],
-    image: "/guest-tours.jpg"
+    image: "/guest-tours.png"
   },
   {
     title: "Event Coordination",
     desc: "Managing end-to-end logistics, seamless execution, and dynamic flow management for high-impact innovation events and professional gatherings.",
     tags: ["Planning", "Execution", "Logistics"],
-    image: "/event-coordination.jpg"
+    image: "/event-coordination-collage.jpg"
   },
   {
     title: "Social Media Content",
     desc: "Directing, capturing, and producing captivating digital reels and interactive highlights to amplify the brand vision of SNS iHub & SNS Square.",
     tags: ["Content Creation", "Brand Voice", "Digital Media"],
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200&auto=format&fit=crop"
+    image: "/social-media-content.png"
   },
   {
     title: "Reporting & Management",
@@ -281,7 +281,40 @@ const WorkSection = () => {
                     {/* Spine shadow */}
                     <div className="hidden lg:block absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-black/20 via-black/5 to-transparent z-10 pointer-events-none" />
 
-                    <img src={innerPages[page - 1].image} alt={innerPages[page - 1].title} className="w-full h-full object-contain transition-transform duration-700 hover:scale-105" />
+                    <img
+                      src={innerPages[page - 1].image}
+                      alt={innerPages[page - 1].title}
+                      className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
+                      style={
+                        innerPages[page - 1].title === "Guest Tours & Experience"
+                          ? {
+                            filter: "contrast(1.12) brightness(0.92) saturate(0.85) sepia(0.12)",
+                            mixBlendMode: "normal" as const,
+                          }
+                          : {}
+                      }
+                    />
+
+                    {/* Cinematic teal-overlay for Guest Tours image */}
+                    {innerPages[page - 1].title === "Guest Tours & Experience" && (
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background: "linear-gradient(135deg, rgba(15,40,55,0.35) 0%, rgba(20,25,40,0.18) 40%, rgba(60,35,25,0.12) 100%)",
+                          mixBlendMode: "multiply",
+                        }}
+                      />
+                    )}
+
+                    {/* Vignette for Guest Tours image */}
+                    {innerPages[page - 1].title === "Guest Tours & Experience" && (
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          boxShadow: "inset 0 0 120px 40px rgba(0,0,0,0.4)",
+                        }}
+                      />
+                    )}
 
                     {/* Multi-stage blending overlays */}
                     <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
