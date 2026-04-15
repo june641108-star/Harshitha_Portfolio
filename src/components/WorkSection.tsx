@@ -14,7 +14,7 @@ const innerPages = [
     title: "Guest Tours & Experience",
     desc: "Acting as the primary ambassador, warmly receiving VIP visitors, coordinating itineraries, and guiding them through the intricate SNS iHub ecosystem.",
     tags: ["Hospitality", "Networking", "Public Relations"],
-    image: "/guest-tours.png"
+    image: "/image.png"
   },
   {
     title: "Event Coordination",
@@ -188,36 +188,57 @@ const WorkSection = () => {
                   style={{ transformStyle: "preserve-3d" }}
                   onClick={() => paginate(1)}
                 >
-                  {/* ── Background ── */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
+                  {/* ── Background Layer (Blurred) ── */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src="/sns-handshake.jpg" 
+                      alt="" 
+                      className="w-full h-full object-cover blur-md opacity-30 scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+                  </div>
 
-                  {/* ── Decorative elements for a minimal cover ── */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent" />
-                  <div className="absolute bottom-12 left-8 w-12 h-1 bg-primary/30" />
+                  {/* ── Featured Focus Image ── */}
+                  <div className="absolute top-12 sm:top-14 inset-x-8 sm:inset-x-10 aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl transition-transform duration-700 group-hover:scale-[1.03] group-hover:-rotate-1 group-hover:shadow-primary/20">
+                    <img 
+                      src="/sns-handshake.jpg" 
+                      alt="Relationship & Engagement Executive" 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  </div>
 
                   {/* ── Cover Content ── */}
                   <div className="relative z-10 flex flex-col justify-end h-full p-8 sm:p-10">
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {["Current Role", "SNS iHub"].map((t) => (
+                      {["Primary Role", "SNS iHub"].map((t) => (
                         <span
                           key={t}
-                          className="bg-primary/5 border border-primary/10 text-primary/70 rounded-full px-3 py-1 text-[10px] font-mono uppercase tracking-wider"
+                          className="bg-primary/10 backdrop-blur-md border border-primary/20 text-primary rounded-full px-3 py-1 text-[10px] font-mono uppercase tracking-wider"
                         >
                           {t}
                         </span>
                       ))}
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-3 leading-tight">
-                      Relationship &amp;<br />Engagement Executive
-                    </h3>
+                    {/* Title with Glass Effect container for readability */}
+                    <div className="mb-2">
+                       <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1 leading-tight drop-shadow-lg">
+                        Relationship &amp;<br />Engagement Executive
+                      </h3>
+                      <div className="h-1 w-12 bg-primary/60 rounded-full" />
+                    </div>
 
                     {/* Description */}
-                    <p className="text-muted-foreground leading-relaxed text-sm max-w-xs mb-8">
-                      Creating immersive experiences that leave a lasting impression on every visitor.
+                    <p className="text-muted-foreground/90 leading-relaxed text-sm max-w-xs mb-6 font-medium">
+                      Curating high-impact guest experiences and brand narratives at SNS iHub.
                     </p>
+
+                    <div className="flex items-center gap-2 text-primary text-xs font-mono uppercase tracking-widest animate-pulse">
+                      <span>Click to Explore</span>
+                      <ChevronRight size={14} />
+                    </div>
                   </div>
 
                   {/* ── Book-edge details (right side) ── */}
@@ -285,36 +306,7 @@ const WorkSection = () => {
                       src={innerPages[page - 1].image}
                       alt={innerPages[page - 1].title}
                       className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
-                      style={
-                        innerPages[page - 1].title === "Guest Tours & Experience"
-                          ? {
-                            filter: "contrast(1.12) brightness(0.92) saturate(0.85) sepia(0.12)",
-                            mixBlendMode: "normal" as const,
-                          }
-                          : {}
-                      }
                     />
-
-                    {/* Cinematic teal-overlay for Guest Tours image */}
-                    {innerPages[page - 1].title === "Guest Tours & Experience" && (
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          background: "linear-gradient(135deg, rgba(15,40,55,0.35) 0%, rgba(20,25,40,0.18) 40%, rgba(60,35,25,0.12) 100%)",
-                          mixBlendMode: "multiply",
-                        }}
-                      />
-                    )}
-
-                    {/* Vignette for Guest Tours image */}
-                    {innerPages[page - 1].title === "Guest Tours & Experience" && (
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          boxShadow: "inset 0 0 120px 40px rgba(0,0,0,0.4)",
-                        }}
-                      />
-                    )}
 
                     {/* Multi-stage blending overlays */}
                     <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
