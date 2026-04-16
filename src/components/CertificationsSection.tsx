@@ -127,42 +127,54 @@ const CertificationsSection = () => {
           </DialogContent>
         </Dialog>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
           {certs.map((cert, i) => (
             <motion.div
               key={cert.title}
-              className="glass-card rounded-xl p-6 relative overflow-hidden group cursor-default"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + i * 0.1, type: "spring" }}
-              whileHover={{ y: -6 }}
+              onClick={() => {
+                setSelectedKey(`${cert.title}-${cert.year}`);
+                setOpen(true);
+              }}
+              className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full glass-card p-6 flex flex-col items-center justify-center text-center cursor-pointer group overflow-hidden border border-white/10"
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+              transition={{ 
+                delay: 0.2 + i * 0.1, 
+                type: "spring",
+                stiffness: 100,
+                damping: 15
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                y: -5,
+                rotate: i % 2 === 0 ? 2 : -2
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-100 transition-opacity`} />
-              <div className="absolute top-3 right-3">
-                <CheckCircle2 size={16} className="text-primary/60" />
+              {/* Animated Background Glow */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              
+              {/* Badge/Check Icon */}
+              <div className="absolute top-4 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-y-2 group-hover:translate-y-0">
+                <CheckCircle2 size={16} className="text-primary" />
               </div>
-              <div className="relative z-10">
-                <div className="w-10 h-10 rounded-lg glass-card flex items-center justify-center mb-4">
-                  <cert.icon size={18} className="text-primary" strokeWidth={1.5} />
-                </div>
-                <h3 className="font-display font-semibold text-foreground mb-1 text-sm">{cert.title}</h3>
-                <p className="text-xs text-muted-foreground mb-2">{cert.issuer}</p>
-                <span className="font-mono-label text-muted-foreground">{cert.year}</span>
 
-                <div className="mt-4">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="w-full"
-                    onClick={() => {
-                      setSelectedKey(`${cert.title}-${cert.year}`);
-                      setOpen(true);
-                    }}
-                  >
-                    View Certificate <ExternalLink size={16} />
-                  </Button>
-                </div>
+              <div className="relative z-10">
+                <h3 className="font-display font-bold text-foreground mb-2 text-sm sm:text-base leading-tight">
+                  {cert.title}
+                </h3>
+                <div className="h-0.5 w-6 bg-primary/40 mx-auto mb-2 rounded-full" />
+                <span className="font-mono-label text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">
+                  {cert.year}
+                </span>
               </div>
+
+              {/* View Hint */}
+              <motion.div 
+                className="absolute bottom-4 opacity-0 group-hover:opacity-40 transition-opacity"
+              >
+                <ArrowRight size={14} />
+              </motion.div>
             </motion.div>
           ))}
         </div>
