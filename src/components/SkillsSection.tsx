@@ -3,53 +3,46 @@ import { useRef, useState } from "react";
 
 const skills = [
   {
-    label: "Relationship Management",
-    emoji: "🤝",
-    value: 95,
-    desc: "Cultivating and sustaining strategic partnerships built on trust and mutual success.",
-    color: "from-primary/20 to-transparent"
+    label: "Crafting Experiences",
+    tagline: "Managing front office interactions and ensuring a smooth, welcoming experience for every visitor.",
+    subSkills: ["Guest Handling", "Front Office Management", "Visitor Experience", "Hospitality"],
+    color: "from-primary/20 to-transparent",
   },
   {
-    label: "Event Management",
-    emoji: "🎪",
-    value: 85,
-    desc: "Orchestrating end-to-end impactful events with seamless execution.",
-    color: "from-cyan-500/20 to-transparent"
+    label: "Bringing Events to Life",
+    tagline: "Coordinating event requirements and executing employee engagement activities seamlessly.",
+    subSkills: ["Event Coordination", "Event Execution", "Employee Engagement Activities", "Requirement Gathering"],
+    color: "from-cyan-500/20 to-transparent",
   },
   {
-    label: "Community Engagement",
-    emoji: "🌐",
-    value: 90,
-    desc: "Fostering vibrant, inclusive communities that drive collective growth.",
-    color: "from-secondary/20 to-transparent"
+    label: "Building Connections",
+    tagline: "Guiding guests through iHub spaces and creating meaningful interactions during visits.",
+    subSkills: ["Guest Tours & Walkthroughs", "Networking", "Public Interaction", "Community Experience"],
+    color: "from-secondary/20 to-transparent",
   },
   {
-    label: "Communication",
-    emoji: "🗣️",
-    value: 90,
-    desc: "Articulating ideas effectively and building consensus through active listening.",
-    color: "from-primary/20 to-transparent"
+    label: "Voice & Presence",
+    tagline: "Hosting events, presenting confidently, and engaging audiences on stage and on camera.",
+    subSkills: ["Public Speaking", "Anchoring / Event Hosting (MC)", "On-Camera Presentation", "Verbal Communication"],
+    color: "from-primary/20 to-transparent",
   },
   {
-    label: "Coordination & Ops",
-    emoji: "⚙️",
-    value: 88,
-    desc: "Streamlining workflows ensuring seamless cross-functional delivery.",
-    color: "from-cyan-500/20 to-transparent"
+    label: "Making Things Happen",
+    tagline: "Coordinating with teams, handling requirements, and ensuring smooth day-to-day operations.",
+    subSkills: ["Task Coordination", "Team Collaboration", "Requirement Handling", "Tool Usage (VS Code, Cursor, Antigravity)"],
+    color: "from-cyan-500/20 to-transparent",
   },
   {
-    label: "Leadership & Teamwork",
-    emoji: "👑",
-    value: 85,
-    desc: "Inspiring teams and fostering a highly collaborative environment.",
-    color: "from-secondary/20 to-transparent"
+    label: "Leading with Impact",
+    tagline: "Taking initiative in team activities and contributing to collaborative execution.",
+    subSkills: ["Team Support", "Initiative Taking", "Activity Management", "Responsibility Handling"],
+    color: "from-secondary/20 to-transparent",
   },
   {
-    label: "Social Media Content",
-    emoji: "📱",
-    value: 80,
-    desc: "Crafting compelling digital narratives that resonate with target audiences.",
-    color: "from-primary/20 to-transparent"
+    label: "Stories in Motion",
+    tagline: "Creating and featuring in video content for SNS iHub and SNS Square across social media.",
+    subSkills: ["Video Creation", "On-Camera Presence", "Voice Over", "Basic Editing & Content Tools"],
+    color: "from-primary/20 to-transparent",
   },
 ];
 
@@ -101,7 +94,7 @@ const SkillsSection = () => {
 
         {/* Compact Horizontal Accordion Layout */}
         <motion.div 
-          className="flex flex-col md:flex-row w-full min-h-[600px] md:min-h-[420px] gap-3 outline-none rounded-3xl"
+          className="flex flex-col md:flex-row w-full min-h-[550px] md:min-h-[380px] gap-3 outline-none rounded-3xl"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -129,7 +122,7 @@ const SkillsSection = () => {
                 <div 
                   className={`absolute w-full h-full flex flex-col items-center justify-center p-4 transition-all duration-500 ${isActive ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
                 >
-                  <span className="text-3xl md:text-2xl lg:text-3xl filter drop-shadow-md transition-transform duration-300 hover:scale-110 mb-0 md:mb-6">{skill.emoji}</span>
+                  <span className="text-xl md:text-lg lg:text-xl font-mono font-bold text-primary/40 mb-0 md:mb-6">0{i + 1}</span>
                   <span 
                     className="hidden md:block text-xs font-semibold tracking-wider text-muted-foreground whitespace-nowrap"
                     style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
@@ -144,38 +137,30 @@ const SkillsSection = () => {
                 
                 {/* ACTIVE STATE: Full Information */}
                 <div 
-                  className={`absolute inset-0 p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 delay-100 ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10 pointer-events-none'}`}
+                  className={`absolute inset-0 p-6 sm:p-8 flex flex-col justify-center transition-all duration-500 delay-100 ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10 pointer-events-none'}`}
                 >
                   <div className="min-w-[250px]">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-background/50 border border-primary/20 flex items-center justify-center text-2xl shadow-sm">
-                        {skill.emoji}
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-display font-semibold text-foreground whitespace-nowrap">
+                    <div className="mb-6">
+                      <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground leading-tight mb-2">
                         {skill.label}
                       </h3>
+                      <p className="text-sm font-medium text-primary/80 tracking-wide border-l-2 border-primary/30 pl-3">
+                        {skill.tagline}
+                      </p>
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mb-6 opacity-90">
-                      {skill.desc}
-                    </p>
+                    <div className="flex flex-wrap gap-2 mb-8 max-w-sm">
+                      {skill.subSkills.map((sub) => (
+                        <div 
+                          key={sub}
+                          className="px-3 py-2 rounded-xl bg-background/40 backdrop-blur-md border border-primary/10 text-[11px] sm:text-xs font-medium text-foreground/80 shadow-sm transition-transform duration-300 hover:scale-[1.03] hover:border-primary/30"
+                        >
+                          {sub}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   
-                  <div className="mt-auto min-w-[250px]">
-                    <div className="flex justify-between items-end mb-2 max-w-[280px]">
-                      <span className="text-[10px] uppercase font-mono tracking-widest text-muted-foreground">Proficiency</span>
-                      <span className="text-sm font-semibold text-primary">{skill.value}%</span>
-                    </div>
-                    <div className="w-full max-w-[280px] h-1.5 bg-foreground/10 rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-gradient-to-r from-primary to-secondary rounded-full relative"
-                        initial={{ width: 0 }}
-                        animate={{ width: isActive ? `${skill.value}%` : "0%" }}
-                        transition={{ duration: 1, ease: "easeOut", delay: isActive ? 0.3 : 0 }}
-                      >
-                        <div className="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-[2px]" />
-                      </motion.div>
-                    </div>
-                  </div>
+                  {/* Skills tags area */}
                 </div>
               </div>
             );

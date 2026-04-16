@@ -18,13 +18,13 @@ const innerPages = [
   },
   {
     title: "Event Coordination",
-    desc: "Managing end-to-end logistics, seamless execution, and dynamic flow management for high-impact innovation events and professional gatherings.",
+    desc: "Supporting event coordination by handling requirements, connecting with internal teams, and ensuring smooth execution of events and employee engagement activities.",
     tags: ["Planning", "Execution", "Logistics"],
     image: "/event-coordination-collage.jpg"
   },
   {
     title: "Social Media Content",
-    desc: "Directing, capturing, and producing captivating digital reels and interactive highlights to amplify the brand vision of SNS iHub & SNS Square.",
+    desc: "Creating and featuring in captivating digital reels and interactive highlights to amplify the brand vision of SNS iHub & SNS Square.",
     tags: ["Content Creation", "Brand Voice", "Digital Media"],
     image: "/social-media-content.png"
   },
@@ -190,9 +190,9 @@ const WorkSection = () => {
                 >
                   {/* ── Background Layer (Blurred) ── */}
                   <div className="absolute inset-0">
-                    <img 
-                      src="/sns-handshake.jpg" 
-                      alt="" 
+                    <img
+                      src="/sns-handshake.jpg"
+                      alt=""
                       className="w-full h-full object-cover blur-md opacity-30 scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
@@ -200,9 +200,9 @@ const WorkSection = () => {
 
                   {/* ── Featured Focus Image ── */}
                   <div className="absolute top-12 sm:top-14 inset-x-8 sm:inset-x-10 aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 shadow-2xl transition-transform duration-700 group-hover:scale-[1.03] group-hover:-rotate-1 group-hover:shadow-primary/20">
-                    <img 
-                      src="/sns-handshake.jpg" 
-                      alt="Relationship & Engagement Executive" 
+                    <img
+                      src="/sns-handshake.jpg"
+                      alt="Relationship & Engagement Executive"
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -222,16 +222,15 @@ const WorkSection = () => {
                       ))}
                     </div>
 
-                    {/* Title with Glass Effect container for readability */}
                     <div className="mb-2">
-                       <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-1 leading-tight drop-shadow-lg">
+                      <h3 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white mb-1 leading-tight drop-shadow-lg">
                         Relationship &amp;<br />Engagement Executive
                       </h3>
                       <div className="h-1 w-12 bg-primary/60 rounded-full" />
                     </div>
 
                     {/* Description */}
-                    <p className="text-muted-foreground/90 leading-relaxed text-sm max-w-xs mb-6 font-medium">
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm max-w-xs mb-6 font-medium">
                       Curating high-impact guest experiences and brand narratives at SNS iHub.
                     </p>
 
@@ -279,15 +278,15 @@ const WorkSection = () => {
                       ))}
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-semibold text-foreground mb-6">
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-semibold text-gray-900 dark:text-white mb-6">
                       {innerPages[page - 1].title}
                     </h3>
 
-                    <p className="text-muted-foreground leading-relaxed text-base sm:text-lg">
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base sm:text-lg">
                       {innerPages[page - 1].desc}
                     </p>
 
-                    <div className="absolute bottom-8 left-8 sm:left-12 lg:left-14 text-xs font-mono tracking-widest uppercase text-muted-foreground/60">
+                    <div className="absolute bottom-8 left-8 sm:left-12 lg:left-14 text-xs font-mono tracking-widest uppercase text-gray-500 dark:text-gray-400">
                       Page {page + 1}
                     </div>
                   </motion.div>
