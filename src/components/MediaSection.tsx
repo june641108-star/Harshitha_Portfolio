@@ -1,6 +1,9 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X } from "lucide-react";
+
+// ✅ IMPORT VIDEO
+import womensDayVideo from "../videos/womensday-celebration.mp4";
 
 const filters = ["All", "Events", "SNS iHub", "Engagement", "Content"];
 
@@ -34,83 +37,98 @@ const MediaSection = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const filtered = activeFilter === "All"
-    ? mediaItems
-    : mediaItems.filter((m) => m.category === activeFilter);
+  const filtered =
+    activeFilter === "All"
+      ? mediaItems
+      : mediaItems.filter((m) => m.category === activeFilter);
 
   return (
     <section id="media" className="py-[15vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
-        <motion.p
-          className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-        >
+
+        {/* Header */}
+        <motion.p className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4">
           Moments & Memories
         </motion.p>
-        <motion.h2
-          className="font-mono-label tracking-widest font-display font-semibold text-foreground mb-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-        >
+
+        <motion.h2 className="font-mono-label tracking-widest font-display font-semibold text-foreground mb-3">
           Events, Engagement & <span className="text-gradient-primary">Everything In Between</span>
         </motion.h2>
-        <motion.p
-          className="text-muted-foreground mb-8"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.2 }}
-        >
+
+        <motion.p className="text-muted-foreground mb-8">
           A glimpse into the people, places, and experiences that shape my journey.
         </motion.p>
 
-        {/* Filter tabs */}
-        <motion.div
-          className="flex flex-wrap gap-2 mb-10"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.3 }}
-        >
+        {/* Filters */}
+        <div className="flex flex-wrap gap-2 mb-10">
           {filters.map((f) => (
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-4 py-2 rounded-full text-sm transition-all ${activeFilter === f
-                  ? "btn-gradient text-primary-foreground"
-                  : "glass-card text-muted-foreground hover:text-foreground"
+              className={`px-4 py-2 rounded-full text-sm ${activeFilter === f
+                ? "btn-gradient text-primary-foreground"
+                : "glass-card text-muted-foreground"
                 }`}
             >
               {f}
             </button>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Masonry grid */}
+        {/* GRID */}
         <div className="columns-2 md:columns-3 gap-4 space-y-4">
-          <AnimatePresence mode="popLayout">
+
+          <AnimatePresence>
             {filtered.map((item, i) => (
               <motion.div
                 key={item.id}
-                layout
-                className={`break-inside-avoid glass-card rounded-xl p-2 cursor-pointer group ${i % 3 === 0 ? "rotate-[-1deg]" : i % 3 === 1 ? "rotate-[1deg]" : ""
-                  }`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: i * 0.05, type: "spring" }}
-                whileHover={{ rotate: 0, scale: 1.03, zIndex: 10 }}
+                className="break-inside-avoid glass-card rounded-xl p-2 cursor-pointer group"
                 onClick={() => setLightboxIndex(mediaItems.indexOf(item))}
               >
                 <div
-                  className={`rounded-lg bg-gradient-to-br ${gradients[i % gradients.length]} ${item.aspect === "portrait" ? "aspect-[3/4]" : item.aspect === "landscape" ? "aspect-[4/3]" : "aspect-square"
-                    } flex items-center justify-center group-hover:brightness-110 transition-all`}
+                  className={`rounded-lg bg-gradient-to-br ${gradients[i % gradients.length]
+                    } ${item.aspect === "portrait"
+                      ? "aspect-[3/4]"
+                      : item.aspect === "landscape"
+                        ? "aspect-[4/3]"
+                        : "aspect-square"
+                    } flex items-center justify-center`}
                 >
                   <span className="text-3xl opacity-50">📸</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2 px-1 pb-1 text-center">{item.caption}</p>
+                <p className="text-xs text-muted-foreground mt-2 text-center">
+                  {item.caption}
+                </p>
               </motion.div>
             ))}
           </AnimatePresence>
+
+          {/* ✅ VIDEO CARD (PORTRAIT FIXED) */}
+          <motion.div className="break-inside-avoid glass-card rounded-xl p-2 group">
+            <div className="rounded-lg bg-gradient-to-br from-violet-600/30 to-cyan-500/20 aspect-[3/4] relative overflow-hidden">
+
+              <video
+                src={womensDayVideo}
+                className="w-full h-full object-cover"
+                muted
+                loop
+                playsInline
+                autoPlay   // ✅ IMPORTANT FIX
+              />
+
+              {/* Play overlay */}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
+                <div className="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center backdrop-blur-sm">
+                  ▶
+                </div>
+              </div>
+            </div>
+
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              Womensday celebration
+            </p>
+          </motion.div>
+
         </div>
       </div>
 
@@ -118,48 +136,12 @@ const MediaSection = () => {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center bg-black/80"
             onClick={() => setLightboxIndex(null)}
           >
-            <button
-              className="absolute top-6 right-6 text-foreground hover:text-primary transition-colors"
-              onClick={() => setLightboxIndex(null)}
-            >
-              <X size={28} />
-            </button>
-            <button
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground hover:text-primary p-2"
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxIndex((p) => (p! > 0 ? p! - 1 : mediaItems.length - 1));
-              }}
-            >
-              <ChevronLeft size={32} />
-            </button>
-            <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground hover:text-primary p-2"
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxIndex((p) => (p! < mediaItems.length - 1 ? p! + 1 : 0));
-              }}
-            >
-              <ChevronRight size={32} />
-            </button>
-            <motion.div
-              className="max-w-2xl w-full mx-4"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className={`rounded-2xl bg-gradient-to-br ${gradients[lightboxIndex % gradients.length]} aspect-video flex items-center justify-center`}>
-                <span className="text-6xl opacity-50">📸</span>
-              </div>
-              <p className="text-center text-foreground mt-4 font-display">{mediaItems[lightboxIndex].caption}</p>
-            </motion.div>
+            <div className="bg-white p-4 rounded">
+              <p>{mediaItems[lightboxIndex].caption}</p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
