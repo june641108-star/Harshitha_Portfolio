@@ -104,31 +104,31 @@ const MediaSection = () => {
           </AnimatePresence>
 
           {/* ✅ VIDEO CARD (PORTRAIT FIXED) */}
-          <motion.div className="break-inside-avoid glass-card rounded-xl p-2 group">
+          <motion.div className="break-inside-avoid glass-card rounded-xl p-2">
             <div className="rounded-lg bg-gradient-to-br from-violet-600/30 to-cyan-500/20 aspect-[3/4] relative overflow-hidden">
 
               <video
                 src={womensDayVideo}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 muted
                 loop
                 playsInline
-                autoPlay   // ✅ IMPORTANT FIX
+                autoPlay
+                preload="metadata"
+                onClick={(e) => {
+                  const video = e.currentTarget;
+                  video.muted = false;
+                  video.controls = true;
+                  video.play();
+                }}
               />
 
-              {/* Play overlay */}
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition">
-                <div className="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center backdrop-blur-sm">
-                  ▶
-                </div>
-              </div>
             </div>
 
             <p className="text-xs text-muted-foreground mt-2 text-center">
               Womensday celebration
             </p>
           </motion.div>
-
         </div>
       </div>
 
