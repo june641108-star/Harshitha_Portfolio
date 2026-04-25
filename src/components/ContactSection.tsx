@@ -26,10 +26,10 @@ const ContactSection = () => {
     // Connect to EmailJS
     emailjs
       .sendForm(
-        "service_duzm0t7",
-        "template_twh9m95",
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         formRef.current,
-        "o0usOl12k5vUntJdP"
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
       .then(
         (result) => {

@@ -77,15 +77,16 @@ const MediaSection = () => {
         <AnimatePresence>
           {!activeFilter && (
             <motion.div
-              initial={{ opacity: 0, y: -15 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, height: 0, overflow: 'hidden', filter: "blur(4px)" }}
               transition={{ duration: 0.4 }}
-              className="mb-8"
+              className="mb-10 w-full flex justify-center"
             >
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-secondary/40 border border-border/50 backdrop-blur-md shadow-sm">
-                <span className="text-xl">👉</span>
-                <span className="text-sm font-medium text-foreground/90">Select a category to explore the moments</span>
+              <div className="inline-flex items-center justify-center px-8 md:px-12 py-4 md:py-5 rounded-full bg-gradient-to-r from-primary/10 via-background/80 to-secondary/10 border-2 border-primary/30 backdrop-blur-xl shadow-lg hover:shadow-xl hover:border-primary/50 transition-all duration-300">
+                <span className="text-lg sm:text-xl font-display font-semibold italic text-foreground tracking-wide">
+                  Click the category and know more
+                </span>
               </div>
             </motion.div>
           )}

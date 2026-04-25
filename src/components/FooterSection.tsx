@@ -1,5 +1,3 @@
-import { Linkedin, Instagram, Mail } from "lucide-react";
-
 const FooterSection = () => {
   return (
     <footer className="relative border-t border-border">
@@ -19,18 +17,6 @@ const FooterSection = () => {
               </a>
             ))}
           </nav>
-
-          <div className="flex gap-4">
-            <a href="https://linkedin.com/in/harshitha--k-s/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-              <Linkedin size={18} strokeWidth={1.5} />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-accent transition-colors">
-              <Instagram size={18} strokeWidth={1.5} />
-            </a>
-            <a href="mailto:june641108@gmail.com" className="text-muted-foreground hover:text-secondary transition-colors">
-              <Mail size={18} strokeWidth={1.5} />
-            </a>
-          </div>
         </div>
 
         <div className="text-center mt-8 pt-6 border-t border-border">

@@ -143,22 +143,22 @@ const WorkSection = () => {
     <section id="work" className="py-[10vh] relative" ref={ref}>
       <div className="container mx-auto px-6">
 
-        {/* Section Header - Only visible when book is open for a cleaner initial cover view */}
-        <AnimatePresence>
-          {!isCover && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="mb-8 lg:mb-12 text-center"
-            >
-              <h2 className="font-mono-label tracking-[0.2em] text-foreground/60 uppercase text-xs mb-2">
-                Experience & Impact
-              </h2>
-              <div className="h-px w-12 bg-primary/30 mx-auto" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Section Header - Always visible */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          className="mb-8 lg:mb-12"
+        >
+          <p className="text-3xl sm:text-4xl font-display font-semibold text-primary mb-4">
+            Work Experience
+          </p>
+          <h2 className="font-mono-label tracking-[0.2em] font-semibold text-foreground mb-3 text-xs sm:text-sm uppercase">
+            Experience & <span className="text-gradient-primary">Impact</span>
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-xl">
+            A chronicle of my professional journey, focusing on cultivating meaningful relationships and curating exceptional guest experiences.
+          </p>
+        </motion.div>
 
         {/* ═══════ THE BOOK ═══════ */}
         <motion.div
@@ -222,19 +222,21 @@ const WorkSection = () => {
                       ))}
                     </div>
 
-                    <div className="mb-2">
-                      <h3 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white mb-1 leading-tight drop-shadow-lg">
-                        Relationship &amp;<br />Engagement Executive
-                      </h3>
-                      <div className="h-1 w-12 bg-primary/60 rounded-full" />
+                    <div className="bg-background/85 dark:bg-background/75 backdrop-blur-xl p-5 rounded-2xl border border-primary/10 shadow-xl mb-4 transition-colors">
+                      <div className="mb-3">
+                        <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-2 leading-tight">
+                          Relationship &amp;<br />Engagement Executive
+                        </h3>
+                        <div className="h-1.5 w-12 bg-primary rounded-full" />
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-foreground/80 leading-relaxed text-sm max-w-xs font-medium">
+                        Curating high-impact guest experiences and brand narratives at SNS iHub.
+                      </p>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm max-w-xs mb-6 font-medium">
-                      Curating high-impact guest experiences and brand narratives at SNS iHub.
-                    </p>
-
-                    <div className="flex items-center gap-2 text-primary text-xs font-mono uppercase tracking-widest animate-pulse">
+                    <div className="flex items-center gap-2 text-primary font-bold text-xs font-mono uppercase tracking-widest animate-pulse ml-2 mb-2">
                       <span>Click to Explore</span>
                       <ChevronRight size={14} />
                     </div>
