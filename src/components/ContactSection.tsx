@@ -1,9 +1,11 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, Linkedin, Copy, Check, Send, Loader2, CheckCircle2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const ContactSection = () => {
   const ref = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [copied, setCopied] = useState(false);
   const [formState, setFormState] = useState<"idle" | "loading" | "success">("idle");
@@ -17,8 +19,30 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formRef.current) return;
+
     setFormState("loading");
-    setTimeout(() => setFormState("success"), 1500);
+
+    // Connect to EmailJS
+    emailjs
+      .sendForm(
+        "service_duzm0t7",
+        "template_twh9m95",
+        formRef.current,
+        "o0usOl12k5vUntJdP"
+      )
+      .then(
+        (result) => {
+          console.log("SUCCESS!", result.text);
+          setFormState("success");
+          setForm({ name: "", email: "", subject: "", message: "" });
+        },
+        (error) => {
+          console.error("FAILED...", error.text);
+          setFormState("idle");
+          alert("Oops! Something went wrong while sending your message.");
+        }
+      );
   };
 
   return (
@@ -93,23 +117,39 @@ const ContactSection = () => {
                 <p className="text-muted-foreground text-sm">Thanks for reaching out. I'll get back to you soon.</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {[
-                  { name: "name", placeholder: "Full Name", type: "text" },
-                  { name: "email", placeholder: "Email Address", type: "email" },
-                  { name: "subject", placeholder: "Subject", type: "text" },
-                ].map((field) => (
-                  <input
-                    key={field.name}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    required
-                    className="w-full glass-card rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground bg-transparent focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    value={form[field.name as keyof typeof form]}
-                    onChange={(e) => setForm({ ...form, [field.name]: e.target.value })}
-                  />
-                ))}
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  required
+                  className="w-full glass-card rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground bg-transparent focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  required
+                  className="w-full glass-card rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground bg-transparent focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Subject"
+                  required
+                  className="w-full glass-card rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground bg-transparent focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  value={form.subject}
+                  onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                />
+
                 <textarea
+                  name="message"
                   placeholder="Message"
                   required
                   rows={4}
@@ -117,6 +157,7 @@ const ContactSection = () => {
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                 />
+
                 <button
                   type="submit"
                   disabled={formState === "loading"}
