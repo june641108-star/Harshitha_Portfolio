@@ -21,16 +21,17 @@ const ContactSection = () => {
     e.preventDefault();
     if (!formRef.current) return;
 
+    // Use environment variables first, but gracefully fallback to the actual IDs
+    // since EmailJS keys are safely meant to be public in frontend applications.
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_duzm0t7";
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_twh9m95";
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "o0usOl12k5vUntJdP";
+
     setFormState("loading");
 
     // Connect to EmailJS
     emailjs
-      .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
+      .sendForm(serviceId, templateId, formRef.current, publicKey)
       .then(
         (result) => {
           console.log("SUCCESS!", result.text);
@@ -40,7 +41,7 @@ const ContactSection = () => {
         (error) => {
           console.error("FAILED...", error.text);
           setFormState("idle");
-          alert("Oops! Something went wrong while sending your message.");
+          alert("Oops! Something went wrong while sending your message. Please verify your EmailJS keys.");
         }
       );
   };
